@@ -2,8 +2,10 @@
   "name": "wschat",
   "version": "0.0.0",
   "description": "wschat server",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -14,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/seangranger/wschat/issues"
   },
-  "homepage": "https://github.com/seangranger/wschat#readme"
+  "homepage": "https://github.com/seangranger/wschat#readme",
+  "dependencies": {
+    "ws": "^6.0.0"
+  }
 }
