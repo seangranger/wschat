@@ -13,13 +13,14 @@ socket.addEventListener('open', function(){
   button.addEventListener('click', function(){
     //CONDITIONAL BELOW COPYPASTED FROM GITHUB
     if(username === undefined && !(chatinput.value.match(/^[0-9a-z]+$/))){
-      alert('Invalid user name. Please only use alpha numeric characters. Usernames may be up to 15 characters long.');}else if(username === undefined) {
-        socket.send(chatinput.value.toString().trim());
-        button.innerText = 'Send';
-        username = chatinput.value.toString().trim();
-      }else{
-        socket.send(chatinput.value.toString().trim());
-      }
+      alert('Invalid user name. Please only use alpha numeric characters. Usernames may be up to 15 characters long.');
+    }else if(username === undefined) {
+      socket.send(chatinput.value.toString().trim()+'\n');
+      button.innerText = 'Send';
+      username = chatinput.value.toString().trim();
+    }else{
+      socket.send(chatinput.value.toString().trim()+'\n');
+    }
     chatinput.value = '';
     console.log(username);
   });

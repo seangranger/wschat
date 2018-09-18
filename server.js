@@ -38,7 +38,6 @@ server.on('connection',function(socket){
   socket.on('message', function(mess){
     //NEEDS SANITIZATION!!!!
     //NEED TO ADD ALERT FOR REJECTION OR BLANK 
-    console.log('This is the trimmed message that was sent: '+ mess.toString().trim());
     if(socks[sockid].sockid === socks[sockid].handle){
       //CAN ALERT BE HANDLED BY SERVER ----- for now I will put into client
       //if(mess === '' || //is not alphnum ---- limit characters to 15?){
