@@ -12,6 +12,7 @@ socket.addEventListener('open', function(){
   //should event listener be in here?
   button.addEventListener('click', function(){
     //CONDITIONAL BELOW COPYPASTED FROM GITHUB
+    //Havent actually limited to 15 chars
     if(username === undefined && !(chatinput.value.match(/^[0-9a-z]+$/))){
       alert('Invalid user name. Please only use alpha numeric characters. Usernames may be up to 15 characters long.');
     }else if(username === undefined) {
@@ -22,8 +23,11 @@ socket.addEventListener('open', function(){
       socket.send(chatinput.value.toString().trim()+'\n');
     }
     chatinput.value = '';
-    console.log(username);
   });
+});
+
+socket.addEventListener('message', function(mess){
+  console.log(mess.data);
 });
 //How should client get its username? Send to server then use what it replies with? Does this help confirm theyre using same thing?----------------for now ill have it set itself
 //chatinput.addEventListener('keypress',function(keypress){

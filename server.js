@@ -43,7 +43,6 @@ server.on('connection',function(socket){
       //if(mess === '' || //is not alphnum ---- limit characters to 15?){
         //alert(
       sockval.handle = mess.toString().trim();
-      console.log(socks);
       console.log(socks[sockid].handle);
     }else{
       for(var client in socks){
