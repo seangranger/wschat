@@ -37,17 +37,15 @@ server.on('connection',function(socket){
   }
   socket.on('message', function(mess){
     //NEEDS SANITIZATION!!!!
-    //NEED TO ADD ALERT FOR REJECTION OR BLANK 
-    if(socks[sockid].sockid === socks[sockid].handle){
-      //CAN ALERT BE HANDLED BY SERVER ----- for now I will put into client
+    console.log(sockval.handle+": "+mess.toString().trim());
+    if(sockval.sockid === sockval.handle){
       //if(mess === '' || //is not alphnum ---- limit characters to 15?){
-        //alert(
       sockval.handle = mess.toString().trim();
-      console.log(socks[sockid].handle);
+      console.log('Changing '+sockval.sockid+' to: '+sockval.handle);
     }else{
       for(var client in socks){
-        if(socks[client].handle !== socks[sockid].handle && socks[client].handle !== socks[client].sockid){
-          socks[client].socket.send(socks[sockid].handle+": "+mess);
+        if(socks[client].handle !== sockval.handle && socks[client].handle !== socks[client].sockid){
+          socks[client].socket.send(sockval.handle+": "+mess);
         }
       }
     }
