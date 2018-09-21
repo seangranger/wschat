@@ -6,12 +6,7 @@ document.body.appendChild(chatinput);
 var username;
 var chatoutput = document.getElementById('chatoutput');
 socket.addEventListener('open', function(){
-  console.log('I\'m connected');
-  var button = document.createElement('button');
-  document.body.appendChild(button);
-  button.innerText = 'Login';
-  //should event listener be in here?
-  button.addEventListener('click', function(){
+  var sender = function(){
     //CONDITIONAL BELOW COPYPASTED FROM GITHUB
     if(username === undefined && (!(chatinput.value.match(/^[0-9a-z]+$/)) || chatinput.value.toString().length > 15 )){
       alert('Invalid user name. Please only use alpha numeric characters. Usernames may be up to 15 characters long.');
@@ -27,12 +22,21 @@ socket.addEventListener('open', function(){
       outgoingmssg.innerText = username+': '+chatinput.value.toString().trim()+'\n';
       socket.send(chatinput.value.toString().trim()+'\n');
       chatoutput.appendChild(outgoingmssg);
-      
     }
     chatinput.value = '';
+  };
+  console.log('I\'m connected');
+  var button = document.createElement('button');
+  document.body.appendChild(button);
+  button.innerText = 'Login';
+  //should event listener be in here?
+  button.addEventListener('click', sender);
+  chatinput.addEventListener('keypress',function(e){
+    if(e.keyCode === 13){
+      sender();
+    }
   });
 });
-
 socket.addEventListener('message', function(mess){
   var incomingmssg = document.createElement('li');
   incomingmssg.innerText = mess.data;
