@@ -1,0 +1,7 @@
+/*CSS Document*/
+
+#chatoutput {
+  height:270;
+  width:430;
+  overflow-y: auto;
+word-wrap: break-word;}
