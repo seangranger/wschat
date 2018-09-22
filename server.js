@@ -6,6 +6,7 @@ var server = new ws.Server({
 });
 
 var socks ={};
+var userlist = ''; 
 //tests whether key matches respective sockid val in obj val as well as sockid val in closure
 
 var checkSock = function(sockid){
@@ -28,7 +29,6 @@ server.on('connection',function(socket){
   var sockval = {};
   socks[sockid] = sockval;
   sockval.socket = socket;
-  //should i rename? ----- YES
   sockval.sockid = sockid;
   sockval.handle = sockid;
   console.log('==========someone connected==========');
@@ -39,9 +39,20 @@ server.on('connection',function(socket){
     //NEEDS SANITIZATION!!!!
     console.log(sockval.handle+": "+mess.toString().trim());
     if(sockval.sockid === sockval.handle){
-      //if(mess === '' || //is not alphnum ---- limit characters to 15?){
       sockval.handle = mess.toString().trim();
       console.log('Changing '+sockval.sockid+' to: '+sockval.handle);
+      socket.send(sockval.sockid);
+      for (var client in socks){
+        if(socks[client].handle !== socks[client].sockid){
+        userlist += socks[client].handle.trim()+' ';
+        }
+      }
+      for (var client in socks){
+        if(socks[client].handle !== socks[client].sockid){
+          socks[client].socket.send(socks[client].sockid+": updateuserlist "+userlist);
+        }
+      }
+      userlist = '';
     }else{
       for(var client in socks){
         if(socks[client].handle !== sockval.handle && socks[client].handle !== socks[client].sockid){

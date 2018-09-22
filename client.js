@@ -1,14 +1,17 @@
-// how does css address elements created by js script?
 var socket = new WebSocket('ws://127.0.0.1:5000');
 var chatinput = document.getElementById('chatinput');
 var chatbox = document.getElementById('chatbox');
 var username;
 var chatoutput = document.getElementById('chatoutput');
+//chatoutput = chatoutput.getElementsByTagName('ul');
 var buttonbox = document.getElementById('buttonbox');
 var button = document.createElement('button');
+var userlist = document.getElementById('userlist');
+//userlist = userlist.getElementsByTagName('ul');
 buttonbox.appendChild(button);
 button.innerText = 'Login';
-
+var serverid = false;
+var currentusers = [];
 socket.addEventListener('open', function(){
   var send = function(){
     //CONDITIONAL BELOW COPYPASTED FROM GITHUB
@@ -25,12 +28,12 @@ socket.addEventListener('open', function(){
       outgoingmssg = document.createElement('li');
       outgoingmssg.innerText = username+': '+chatinput.value.toString().trim()+'\n';
       socket.send(chatinput.value.toString().trim()+'\n');
+      //is this appending to the ul or underneath it
       chatoutput.appendChild(outgoingmssg);
     }
     chatinput.value = '';
   };
   console.log('I\'m connected');
-  //should event listener be in here?
   button.addEventListener('click', send);
   chatinput.addEventListener('keypress',function(e){
     if(e.keyCode === 13){
@@ -39,11 +42,29 @@ socket.addEventListener('open', function(){
   });
 });
 socket.addEventListener('message', function(mess){
+  if (serverid === false) {
+    serverid = mess.data;
+    return;
+  }
+  if (mess.data.split(':')[0].trim() === serverid){
+    if(mess.data.split(' ')[1].trim() === 'updateuserlist'){
+      currentusers = mess.data.split('updateuserlist')[1].trim().split(' ');
+      //better way to do this?
+      while (userlist.hasChildNodes()){
+        userlist.removeChild(userlist.firstChild);
+      }
+      for(var x in currentusers){
+        var user2append = document.createElement('li');
+        user2append.innerText = currentusers[x];
+        userlist.appendChild(user2append);
+      }
+    }
+    return;
+  }
   var incomingmssg = document.createElement('li');
   incomingmssg.innerText = mess.data;
   chatoutput.appendChild(incomingmssg);
 });
 //How should client get its username? Send to server then use what it replies with? Does this help confirm theyre using same thing?----------------for now ill have it set itself
-//chatinput.addEventListener('keypress',function(keypress){
 
 
