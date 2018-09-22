@@ -1,10 +1,14 @@
 // how does css address elements created by js script?
 var socket = new WebSocket('ws://127.0.0.1:5000');
-var chatinput = document.createElement('input');
-chatinput.type = 'text';
-document.body.appendChild(chatinput);
+var chatinput = document.getElementById('chatinput');
+var chatbox = document.getElementById('chatbox');
 var username;
 var chatoutput = document.getElementById('chatoutput');
+var buttonbox = document.getElementById('buttonbox');
+var button = document.createElement('button');
+buttonbox.appendChild(button);
+button.innerText = 'Login';
+
 socket.addEventListener('open', function(){
   var send = function(){
     //CONDITIONAL BELOW COPYPASTED FROM GITHUB
@@ -26,9 +30,6 @@ socket.addEventListener('open', function(){
     chatinput.value = '';
   };
   console.log('I\'m connected');
-  var button = document.createElement('button');
-  document.body.appendChild(button);
-  button.innerText = 'Login';
   //should event listener be in here?
   button.addEventListener('click', send);
   chatinput.addEventListener('keypress',function(e){
